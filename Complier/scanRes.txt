@@ -1,0 +1,264 @@
+	1: reserved word: int
+	1: ID, name= func
+	1: (
+	1: reserved word: int
+	1: ID, name= a
+	1: ,
+	1: reserved word: float
+	1: ID, name= f
+	1: )
+	1: {
+	3: reserved word: int
+	3: ID, name= a
+	3: ;
+var a already defined
+	4: reserved word: int
+	4: ID, name= b
+	4: ,
+	4: ID, name= c
+	4: ,
+	4: ID, name= d
+	4: ;
+	6: ID, name= a
+	6: =
+	6: (
+	6: ID, name= b
+	6: &&
+	6: ID, name= a
+	6: <
+	6: INUM, val= 2
+	6: )
+	6: ;
+	7: ID, name= a
+	7: =
+	7: (
+	7: ID, name= c
+	7: <
+	7: ID, name= d
+	7: )
+	7: &&
+	7: (
+	7: ID, name= a
+	7: >
+	7: INUM, val= 1
+	7: ||
+	7: ID, name= a
+	7: <
+	7: INUM, val= 3
+	7: )
+	7: ;
+	8: ID, name= a
+	8: =
+	8: ID, name= a
+	8: +
+	8: INUM, val= 2
+	8: *
+	8: ID, name= d
+	8: -
+	8: INUM, val= 5
+	8: /
+	8: ID, name= c
+	8: ;
+	9: ID, name= a
+	9: =
+	9: INUM, val= 2
+	9: ;
+	10: ID, name= a
+	10: =
+	10: ID, name= b
+	10: ;
+	11: ID, name= a
+	11: =
+	11: ID, name= f
+	11: (
+	11: INUM, val= 2
+	11: +
+	11: INUM, val= 3
+	11: ,
+	11: INUM, val= 4
+	11: )
+	11: ;
+	14: reserved word: if
+	14: (
+	14: ID, name= a
+	14: <
+	14: INUM, val= 2
+	14: )
+	14: {
+	15: ID, name= b
+	15: =
+	15: INUM, val= 3
+	15: ;
+	16: }
+	16: reserved word: else
+	16: {
+	17: reserved word: if
+	17: (
+	17: ID, name= a
+	17: >
+	17: INUM, val= 0
+	17: )
+	17: {
+	17: ID, name= b
+	17: =
+	17: INUM, val= 4
+	17: ;
+	17: }
+	18: }
+	21: ID, name= a
+	21: =
+	21: INUM, val= 0
+	21: ;
+	22: reserved word: repeat
+	22: {
+	23: ID, name= a
+	23: =
+	23: ID, name= a
+	23: +
+	23: INUM, val= 1
+	23: ;
+	24: ID, name= b
+	24: =
+	24: ID, name= b
+	24: +
+	24: ID, name= a
+	24: *
+	24: INUM, val= 2
+	24: ;
+	25: }
+	25: reserved word: until
+	25: (
+	25: ID, name= a
+	25: ==
+	25: INUM, val= 5
+	25: )
+	25: ;
+	26: }
+	27: EOF
+parse successful!
+Program:
+  ProgramHead: 1  func
+    FParaList:	1:a -> 2:f -> 
+  ProgramBody:
+    DeclarList:
+      1 :	        a -> 
+      1 :	        b -> c -> d -> 
+    StmtList:
+      Assign to a
+        &&
+          b
+          <
+            a
+            2 
+      Assign to a
+        &&
+          <
+            c
+            d
+          ||
+            >
+              a
+              1 
+            <
+              a
+              3 
+      Assign to a
+        -
+          +
+            a
+            *
+              2 
+              d
+          /
+            5 
+            c
+      Assign to a
+        2 
+      Assign to a
+        b
+      Assign to a
+                  function: f
+                          +
+                2 
+                3 
+              4 
+      IfBoolExp:
+        <
+          a
+          2 
+        If:        StmtList:
+          Assign to b
+            3 
+        Else:        StmtList:
+          IfBoolExp:
+            >
+              a
+              0 
+            If:            StmtList:
+              Assign to b
+                4 
+            Else:      Assign to a
+        0 
+      Repeat:        StmtList:
+          Assign to a
+            +
+              a
+              1 
+          Assign to b
+            +
+              b
+              *
+                a
+                2 
+        Until:	        ==
+          a
+          5 
+
+建立符号表:
+        &&: test.txt:6 7
+         (: test.txt:1 6 7 11 14 17 25
+         ): test.txt:1 6 7 11 14 17 25
+         *: test.txt:8 24
+         +: test.txt:8 11 23 24
+         ,: test.txt:1 4 11
+         -: test.txt:8
+         /: test.txt:8
+         0: test.txt:17 21
+         1: test.txt:7 23
+         2: test.txt:6 8 9 11 14 24
+         3: test.txt:7 11 15
+         4: test.txt:11 17
+         5: test.txt:8 25
+         ;: test.txt:3 4 6 7 8 9 10 11 15 17 21 23 24 25
+         <: test.txt:6 7 14
+         =: test.txt:6 7 8 9 10 11 15 17 21 23 24
+        ==: test.txt:25
+         >: test.txt:7 17
+       EOF: test.txt:27
+         a: test.txt:1 3 6 7 8 9 10 11 14 17 21 23 24 25
+         b: test.txt:4 6 10 15 17 24
+         c: test.txt:4 7 8
+         d: test.txt:4 7 8
+      else: test.txt:16
+         f: test.txt:1 11
+     float: test.txt:1
+      func: test.txt:1
+        if: test.txt:14 17
+       int: test.txt:1 3 4
+    repeat: test.txt:22
+     until: test.txt:25
+         {: test.txt:1 14 16 17 22
+        ||: test.txt:7
+         }: test.txt:16 17 18 25 26
+
+变量定义表:
+name		 type		 proc		
+a		 1		 0
+f		 2		 0
+b		 1		 0
+c		 1		 0
+d		 1		 0
+
+函数定义表:
+type		 name		 fparas		
+1		 func		0,1:a -> 0,2:f -> 

@@ -1,0 +1,8 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{margin:0 auto; background:url(../images/search_div_bg.jpg);}
+#big table {width:100%;}
+#big table a{color:#036;}
+#version{margin-left:40%;}
+#big table a:hover{color:#F00; }

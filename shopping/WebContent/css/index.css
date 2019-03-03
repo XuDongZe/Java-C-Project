@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{margin: 0 auto;}
+#news{border:1px solid #CCC; width:20%; margin-left:50px; }
+#news thead th{color:#33CCFF; text-align:left;}
+#news thead th a{color:#00F; font-size:12px; text-decoration:none; text-align:right;}
+#news tr td a{font-size:14px; font-family:"Comic Sans MS", cursive, "微软雅黑";
+ color:#00F; text-decoration:none;}
+#news table{width:100%;}
+
+#news tr td font{font-size:12px;}
+#news table tr td {border-bottom:#CCC dashed 1px; line-height:50px;}
+#type{width:20%;border:1px solid #CCC; width:20%; margin-left:50px;}
+#type_logo label{color:#33CCFF;}
+#type table{ width:100%; text-align:center;border:1px solid #CCC; margin:10px 2px;}
+#td{background:url(../images/left_box_bg.png) repeat-y; width:2%;}
+#type table tr td a{font-size:14px; font-family:"Comic Sans MS", cursive, "微软雅黑";
+ color:#00F; text-decoration:none; line-height:30px;}
+#right{float:right;  width:75%; margin-top:-950px; }
+#logo1,#logo2,#logo3{border-bottom:#000 solid 1px; padding-bottom:5px;}
+#goods{width:33%;float:left;}
+#goods table tr td img{width:80px; height:80px;}
+#goods table tr td font{font-size:18px;font-family:"Comic Sans MS", cursive, "微软雅黑"; color:#FFB200;} 
+#goods table tr td label{ font-size:14px; color:#66CCFF;}
+#goods table tr td a{color:#66CCFF; text-decoration:none;}
+#goods table tr td a:hover{ color:#00C;}
+#price{color:#F00; font-size:20px;}
+#bootm{margin-top:50px;}
+
+

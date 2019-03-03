@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{margin:0 auto;}
+#loction p{font-size:12px;}
+#loction p a{text-decoration:none; color:#6DA2BF;}
+#loction p a:hover{color:#00F;}
+#loction img{float:left;}
+#loction{margin-top:20px; margin-left:150px;}
+#cennter{margin-left:20%; margin-top:20px;}
+
+#left,#right{float:left; width:40%; }
+#goodsimage{border:1px solid #B6C4D7; width:70%;}
+#goodsimage p{font-size:24px; color:red; font-family:"楷体";}
+#goodsimage img{ padding-left:30%; margin-top:30%; margin-bottom:30%;}
+#name{ font-weight:bold; font-size:18px;}
+#price{margin-top:70px;}
+#price label{ text-decoration:line-through;}
+#price font{font-size:20px; color:#FF6600;}
+#num{ width:20px;}
+#sub{background:url(../images/addtocart.gif); width:140px; height:37px; border:0;}
+#right{margin-left:-40px;}
+#buy{margin-top:70px; background:#E5EAF0; border:1px solid #B6C4D7; height:100px; }
+#buy form{padding-left:20%; padding-top:5%;}
+#bootm{margin-top:200px;}

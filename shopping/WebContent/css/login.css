@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{margin:0 auto;}
+#loction p{font-size:12px;}
+#loction p a{text-decoration:none; color:#6DA2BF;}
+#loction p a:hover{color:#00F;}
+#loction img{float:left;}
+#loction{margin-top:20px; margin-left:150px;}
+#btn{background:url(../images/btn_login.gif); width:57px;
+height:57px;}
+#left{margin-left:150px; width:45%; float:left; }
+#left table tr td label{font-size:14px;}
+#register_bootm{display:none;}
+#sub{background:url(../images/btn_register.gif); width:125px; height:53px; border:0;}
+table label{font-size:14px;}
+table font{font-size:12px; color:#999;}
+#select{ border-bottom:1px #333 dashed; line-height:50px; padding-bottom:20px;}
+#select font{font-size:16px; font-weight:bold;}
+#select label{font-size:14px;  color:#999;}
+#right table tr td{ border-bottom:1px #333 dashed; width:33%; height:30px;} 
+#right table{width:100%;}
+#subSpan{margin-left:45%; padding-top:20px; float:right; }
+#right{background:url(../images/left_box_bg.png) repeat-y; padding-left:40px; float:left; margin-left:-50px; }
+
+}

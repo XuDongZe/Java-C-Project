@@ -1,0 +1,26 @@
+int func(int a, float f){
+	%声明语句%
+	int a;
+	int b,c,d;
+	
+	a = (b && a<2); %二元布尔表达式%
+	a = (c < d) && ( a>1 || a<3 );%二元关系表达式%
+	a = a+2*d-5/c;
+	a = 2;
+	a = b;
+	a = f(2+3, 4);
+	
+	%if%
+	if(a<2){
+		b=3;
+	}else{
+		if( a>0 ) { b=4; }
+	}
+	
+	%repeat%
+	a=0;
+	repeat{
+		a=a+1;
+		b = b+a*2;
+	}until(a==5);
+}
