@@ -1,8 +1,10 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
+
 <head>
 <%
 String path = request.getContextPath();
@@ -10,129 +12,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 out.println("<base href=\""+basePath+"\">");
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>用户登录 - 三味书屋</title>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+<link rel="stylesheet" type="text/css" href="styles.css">
 <script type="text/javascript" src="js/login.js"></script>
-
-<title>登录</title>
-<link href="css/login.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
-	<div id="top" >
-    	<iframe src="top.html" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
-    </div>
-	<div id="loction">
-    	<img src="images/site_ico.gif" />
-        <p>您现在的位置：<a href="./index.html" target="_new">网站首页</a>>注册/登录</p>
-    </div>
-    <div id="center">
-    	<div id="left">
-    	<form action="/shopping/login" method="post">
-        	<table>
-            	<tr>
-                	<td colspan="3">
-                    <img src="images/login_logo.gif" />
-                    </td>
-                </tr>
-                <tr>
-                	<td><label>用户账户/邮箱：</label></td>
-                    <td>
-                    <input type="text" name="userName" />
-                    </td>
-                    <td rowspan="2">
-						<input type="submit" value="" id="btn" />
-                    </td>
-                </tr>
-                <tr>
-                	<td><label>用户密码：</label></td>
-                    <td>
-                    <input type="password" name="userPwd" />
-                     </td>
-                </tr>
-            </table>
-           </form>
-        </div>
-        
-      <div id="right">
-      	<table>
-        	<tr>
-            	<td colspan="3">
-                <img src="images/register_logo.gif" />
-                </td>
-            </tr>
-            <tr>
-            	<td>
-                	<label>用户账户/邮箱：</label>
-                </td>
-                <td>
-                	<input type="text" name="userName" id="userName"  />
-                </td>
-                <td>
-                	<input type="button" value="检测邮箱"  id="register_btn"/>
-                </td>
-            </tr>
-            <tr>
-            	<td><label>密码：</label> </td>
-                <td><input type="password" name="userPwd" id="userPwd"  /></td>
-                <td><font>登录密码</font></td>
-            </tr>
-            <tr>
-            		<td><label>确认密码：</label> </td>
-                <td><input type="password" name="userPwdTo" id="userPwdTo"  /></td>
-                <td><font>请再次输入密码</font></td>
-            </tr>
-        </table>
-      <span id="select">
-      	<input type="checkbox"  onclick="test()" name="chekbox" value="1" id="chekbox" /><font>高级选项</font>&nbsp;&nbsp;&nbsp;&nbsp;
-        <label>高级选项填写关于配送的信息。若勾选此项，则以下必填。</label>
-      </span>
-      <div id="register_bootm">
-      		<table>
-            	<tr>
-                	<td>
-                    	<label>收货人姓名：</label>
-                    </td>
-                    <td>
-                    	<input type="text" name="userInfoName" id="userInfoName" />
-                    </td>
-                    <td>
-                   	  <font>请填写真实姓名</font>
-                    </td>
-                </tr>
-                <tr>
-                	<td>
-                    	<label>移动电话：</label>
-                    </td>
-                    <td>
-                    	                    	<input type="text" name="tel" id="tel" />
-                    </td>
-                    <td>
-                    	<font>请填写收货电话</font>
-                    </td>
-                </tr>
-                <tr>
-                	<td>
-                    	<label>收货地址：</label>
-                    </td>
-                    <td>
-                    	                    	<input type="text" name="address" id="address" />
-                    </td>
-                    <td>
-                    	<font>请填写发货地址</font>
-                    </td>
-                </tr>
-               
-            </table>
-      
-      </div>
-      <span id="subSpan">
-      	  <input type="submit" id="sub" value=""/>
-      </span>
-      </div>
-      
-    </div>
-    <div id="bootm">
-    	<iframe src="bootm.html" frameborder="0" scrolling="no" width="100%" height="100%">
-        </iframe>
-    </div>
-</body>
-</html>
+		<body>
+			<div id="top">
+				<div id="topnavi">
+					<a href="index.jsp">三味书屋欢迎您！</a>
+					<a href="register.jsp">免费注册</a>
+				</div>
+				<div id="toplogo"></div>
+			</div>
+			<div id="login_main">
+			${error}
+				<form action="/booksshop/login" method="post" onsubmit="return logcheck()">
+					用户名:
+					<input type="text" id="myusn" name="username" value="">
+					<br />
+					<br /> 密&nbsp;码&nbsp;:&nbsp;
+					<input type="password" id="mypwd" name="userpassword">
+					<br />
+					<br /> &nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="shenfen" value="0" checked style="width: 70px;height: 35px; background-color: #B2C4D7" />用户
+					<input type="radio" name="shenfen" value="1" style="width: 70px;height: 35px; background-color: #B2C4D7" />管理员
+					<br />
+					<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="submit" value="登陆" style="width: 70px;height: 35px; background-color: #B2C4D7"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="reset" value="重写" style="width: 70px;height: 35px; background-color: #B2C4D7">
+				</form>
+			</div>
+			<div id="bottom" style="background-color: #E0E8F2">
+				Copyright @ 2018-2019 三味书屋
+			</div>
+		</body>
+
+		</html>

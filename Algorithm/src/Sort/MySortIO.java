@@ -43,6 +43,12 @@ public class MySortIO {
 		System.out.println("read OK!");
 		return array;
 	}
+
+	/**
+	 * [readIntNums 使用制定的URL从文件中读取int序列]
+	 * @param  filename [description]
+	 * @return          [description]
+	 */
 	public ArrayList<Integer> readIntNums(String filename) {
 		ArrayList<Integer> list = new ArrayList<>();
 		return list;

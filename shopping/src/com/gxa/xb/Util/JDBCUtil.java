@@ -1,4 +1,12 @@
 package com.gxa.xb.Util;
+/**
+ * 增删改查的工具包
+ * JDBCBase
+ * Details:
+ * Author:WangLei
+ * DateTime：2017年6月23日
+ * Version：1.0
+ */
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,203 +16,258 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * JDBC工具包
- * @author root
- *
- */
-public class JDBCUtil {
-	private static final String DRIVE = "com.mysql.jdbc.Driver";
-	private static final String ROOT = "root";
-	private static final String PWD  = "123456";
-	private static final String URL = "jdbc:mysql://127.0.0.1:3306/shopping";
+public  class JDBCUtil {
+	private static  final String DRIVE = "com.mysql.jdbc.Driver";
 	
-	/**
-	 * 获取连接池
-	 * @return 连接池
-	 * @throws SQLException 
-	 */
-	public Connection getConnection() throws SQLException{
-			Connection connection = null ;
-			try {
-				Class.forName(DRIVE);
-				connection = DriverManager.getConnection(URL, ROOT, PWD);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	private static  final String URL = "jdbc:mysql://localhost:3306/book?useUnicode=true&characterEncoding=utf8";
+	
+	private static  final String USER = "root";
+	
+	private static  final String PWD = "";
+	
+	//1.获取链接池
+		/**
+		 * 获取连接池
+		 * @return 连接池
+		 * Author:Wanglei
+		 * DateTime:2017年6月23日
+		 */
+		public Connection getConnection(){
 			
-			return connection;
-		
-	}
-	/**
-	 * 关闭
-	 * @param con
-	 * @param pstm
-	 * @param rs
-	 * @throws SQLException
-	 */
-	public void closeAll(Connection con ,PreparedStatement pstm , ResultSet rs) { 
-		if(rs!=null){
-		
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			rs = null;
-		}
-		if(pstm!=null){
-		
-			try {
-				pstm.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			pstm = null;
-		}
-		
-		if(con!=null){
+			Connection con = null;
 			
-			try {
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			con = null;
-		}
-	}
-	/**
-	 * 执行增删改
-	 * @param sql SQL语句
-	 * @param objects 可变参数
-	 * @return
-	 */
-	public static int updateQuery(String sql , Object... objects ){
-		Connection con = null;
-		PreparedStatement pstm = null ; 
-		int count = 0;
-		
-		try {
-			con = new JDBCUtil().getConnection();
-			pstm = con.prepareStatement(sql);
-			//获取条件参数
-			if(objects != null){
-				for(int i = 0 ; i<objects.length; i++){
-					pstm.setObject(i+1, objects[i]);
+			//1.加载驱动
+			
+				try {
+					Class.forName(DRIVE);
+					//2.获取链接
+					try {
+						con = DriverManager.getConnection(URL, USER, PWD);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
+			return con;
+			
+		}
+		
+	//2.释放资源
+		/**
+		 * 
+		 * @param rs 结果集
+		 * @param pstm 预编译的 SQL 语句的对象
+		 * @param con 连接池
+		 * Author:Wanglei
+		 * DateTime:2017年6月23日
+		 */
+		public  void closeAll(ResultSet rs , PreparedStatement pstm , Connection con) {
+		try {	
+			if(rs != null){
+				
+				rs.close();
+				
+				rs = null ;
 			}
-			count = pstm.executeUpdate();
+			if(pstm != null){
+				pstm.close();
+				pstm = null;
+			}
+			
+			if(con != null){
+				con.close();
+				con = null;
+			}
+		} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+	/**
+	 * 
+	 * @param sql SQL语句
+	 * @param object 可变参数，个数不定
+	 * @return 受影响行数
+	 * Author:Wanglei
+	 * DateTime:2017年6月23日
+	 */
+	public static int executeUpdate(String sql , Object... objs ){
+		int count = 0;
+		Connection con = null;
+		PreparedStatement pstm = null;
+		JDBCUtil base  = new JDBCUtil();	
+	
+		try {
+			
+			con = base.getConnection();//获取连接池
+			//预编译SQL语句
+			pstm = con.prepareStatement(sql);
+			//获取条件 添加条件参数
+			if(objs != null){
+				for(int i = 0 ; i < objs.length ; i++ ){
+					
+					pstm.setObject(i + 1 , objs[i]);
+				}
+				
+			}
+			
+			System.out.println(printSQL(sql, objs));
+			count = pstm.executeUpdate();//执行预编译成功的SQL语句
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			new JDBCUtil().closeAll(con, pstm, null);
+			base.closeAll(null, pstm, con);
 		}
 		
 		return count;
 	}
-	
 	/**
-	 * 查询返回多条记录
-	 * @param <T>
-	 * @param sql
-	 * @param objects
-	 * @return
+	 * 
+	 * @param sql 要查询的SQL语句
+	 * @param make 映射关系
+	 * @param objs 条件
+	 * @return 集合
+	 * Author:Wanglei
+	 * DateTime:2017年6月26日
 	 */
-	public static List selectAllQuery(String sql,RowToObject rowToObject,Object...objects){
+	public static List executeQuery(String sql ,  RowToObject make ,Object... objs){
+		ResultSet rs = null;
 		Connection con = null;
-		PreparedStatement pstm = null ; 
-		ResultSet rs = null;//结果集
+		PreparedStatement pstm = null;
+		JDBCUtil base  = new JDBCUtil();	
+		
 		List list = new ArrayList();
+
 		try {
-			//1.//获取连接池
-			con = new JDBCUtil().getConnection();
-			//2.预处理SQL语句
+			
+			con = base.getConnection();//获取连接池
+			//预编译SQL语句
 			pstm = con.prepareStatement(sql);
-			//3.拼接参数
-			if(objects != null){
-				for(int i = 0 ; i<objects.length; i++){
-					pstm.setObject(i+1, objects[i]);
+			//获取条件 添加条件参数
+			if(objs != null){
+				for(int i = 0 ; i < objs.length ; i++ ){
+					
+					pstm.setObject(i + 1 , objs[i]);
 				}
+				
 			}
 			
-			//执行sql 获取返回结果集
-			rs = pstm.executeQuery();
-			
-		//new JDBCUtil().closeAll(con, pstm, rs);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
+			System.out.println(printSQL(sql, objs));
+			rs = pstm.executeQuery();//执行查询
 			while(rs.next()){
-				Object object = rowToObject.makeRowToObject(rs);
-				list.add(object);
+				Object obj = make.makeRowToObject(rs);
+				list.add(obj);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			new JDBCUtil().closeAll(con, pstm, null);
+			base.closeAll(rs, pstm, con);
 		}
-	
+		
 		return list;
 	}
 	/**
-	 * 返回单条记录
+	 * 返回一条记录
 	 * @param sql
-	 * @param rowToObject
-	 * @param objects
+	 * @param make
+	 * @param objs
 	 * @return
+	 * Author:Wanglei
+	 * DateTime:2017年6月26日
 	 */
-	public static Object selectOneQuery(String sql,RowToObject rowToObject,Object...objects){
-		
-		List list = selectAllQuery(sql, rowToObject, objects);
-		if(list != null){
+	public static Object executeQueryOne(String sql ,  RowToObject make ,Object... objs){
+		List list = new ArrayList();
+		list = executeQuery(sql, make, objs);
+		if(list == null || list.size()==0){
+			return null;
+		}else{
 			return list.get(0);
 		}
-		return null;
+		
 	}
 	/**
-	 * 返回单个值
+	 * 查询返回一个指定的值
 	 * @param sql
-	 * @param objects
-	 * @return
+	 * @param objs
+	 * @return 返回一个值
+	 * Author:Wanglei
+	 * DateTime:2017年6月26日
 	 */
-	public static Object selectValueQuery(String sql,Object...objects){
+	public static Object executeQueryValue(String sql ,Object... objs){
+		ResultSet rs = null;
 		Connection con = null;
-		PreparedStatement pstm = null ; 
-		ResultSet rs = null;//结果集
+		PreparedStatement pstm = null;
+		JDBCUtil base  = new JDBCUtil();	
 		Object obj = null;
+		
+
 		try {
-			//1.//获取连接池
-			con = new JDBCUtil().getConnection();
-			//2.预处理SQL语句
+			
+			con = base.getConnection();//获取连接池
+			//预编译SQL语句
 			pstm = con.prepareStatement(sql);
-			//3.拼接参数
-			if(objects != null){
-				for(int i = 0 ; i<objects.length; i++){
-					pstm.setObject(i+1, objects[i]);
+			//获取条件 添加条件参数
+			if(objs != null){
+				for(int i = 0 ; i < objs.length ; i++ ){
+					
+					pstm.setObject(i + 1 , objs[i]);
 				}
+				
 			}
 			
-			//执行sql 获取返回结果集
-			rs = pstm.executeQuery();
+			System.out.println(printSQL(sql, objs));
+			rs = pstm.executeQuery();//执行查询
 			while(rs.next()){
-				obj = rs.getObject(1);
+					obj = rs.getObject(1);
+				
 			}
-		//new JDBCUtil().closeAll(con, pstm, rs);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			new JDBCUtil().closeAll(con, pstm, null);
+			base.closeAll(rs, pstm, con);
 		}
 		
 		return obj;
 	}
-} 
+	/**
+	 * 打印带参数的SQL语句
+	 * @param sql 要格式化的SQL
+	 * @param objs 参数
+	 * @return 格式化后的SQL
+	 * Author:Wanglei
+	 * DateTime:2017年6月26日
+	 */
+	
+	public static String printSQL(String sql , Object... objs){
+		//1.如果没有参数,说明不是动态SQL----PLSQL
+		if(null == objs){
+			return sql;
+		}
+		
+		//如果有参数,则是动态的SQL
+		StringBuffer returnSql = new StringBuffer();
+		//通过？分割字符串
+		String[] subSQL = sql.split("\\?");
+		for(int i = 0 ; i<objs.length; i++){
+			
+			//将SQL拼接起来
+			
+			returnSql.append(subSQL[i]).append("'").append(objs[i]).append("'");
+			
+		}
+		if(subSQL.length > objs.length){
+			returnSql.append(subSQL[subSQL.length-1]);
+			
+		}
+		return returnSql.toString();//将StringBuffer 装换成string
+	}
+	
+	
+}
